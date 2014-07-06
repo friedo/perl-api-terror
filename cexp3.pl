@@ -24,16 +24,17 @@ SV *squares( SV *numbers ) {
 
     for( i = 0; i <= len; i++ ) { 
         tmp = av_fetch( array, i, 1 );
-        if( !SvIOK( *tmp ) ) { 
+        if( !SvIOK( *tmp ) ) {
+            SvREFCNT_dec_NN( (SV *)return_array);
             croak( "Can't handle this value!" );
         }
-        val = SvIV( *tmp );
+        val = SvIVX( *tmp );
         val = val * val;
 
         av_push( return_array, newSViv( val ) );
     }
 
-    return newRV_inc( (SV *)return_array );
+    return newRV_noinc( (SV *)return_array );
 }
 
 
