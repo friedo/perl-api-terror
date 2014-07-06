@@ -23,9 +23,9 @@ __C__
 SV *add( SV *a, SV *b ) { 
 
     if ( SvIOK( a ) && SvIOK( b ) ) { 
-        return newSViv( SvIV( a ) + SvIV( b ) );
+        return newSViv( SvIVX( a ) + SvIVX( b ) );
     } else if ( SvNOK( a ) && SvNOK( b ) ) { 
-        return newSVnv( SvNV( a ) + SvNV( b ) );
+        return newSVnv( SvNVX( a ) + SvNVX( b ) );
     } else { 
         croak( "I don't know what to do!" );
     }

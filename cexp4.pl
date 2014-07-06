@@ -26,14 +26,15 @@ SV *uniques( SV *words ) {
 
     for( i = 0; i <= len; i++ ) { 
         tmp = av_fetch( array, i, 1 );
-        if( !SvPOK( *tmp ) ) { 
+        if( !SvPOK( *tmp ) ) {
+            SvREFCNT_dec_NN( (SV *)result);
             croak( "Can't handle this value!" );
         }
 
-        val = SvPV_nolen( *tmp );
+        val = SvPVX( *tmp );
 
-        hv_store( result, val, strlen( val ), newSV(0), 0 );
+        hv_store( result, val, SvCUR( *tmp ), newSV(0), 0 );
     }
 
-    return newRV_inc( (SV *)result );
+    return newRV_noinc( (SV *)result );
 }
